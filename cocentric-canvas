@@ -1,0 +1,145 @@
+<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+<script src="kinetic-v4.7.0.min.js"></script>
+<style>
+  #container{margin:0 auto;}
+</style>
+<div id="container" style=""></div>
+<script>
+  var myGuage = 200;
+  var outerRadius = 200;
+  var stage = new Kinetic.Stage({
+        container: 'container',
+        width  :  1000,
+        height : 1000
+    });
+    
+    var layer = new Kinetic.Layer();
+    stage.add(layer);    
+    //var dragger=new Kinetic.Group({});    
+    //layer.add(dragger);
+  
+  var circle1 = new Kinetic.Circle({
+        x: myGuage,
+        y: myGuage,
+        radius: myGuage,
+        fill: 'red',
+        stroke: 'black',
+        strokeWidth: 3
+    });
+    
+  layer.add(circle1);  
+  var circle2 = new Kinetic.Circle({
+        x: myGuage,
+        y: myGuage,
+        radius: 160,
+        fill: 'gold',
+        stroke: 'black',
+        strokeWidth: 3
+    });
+    layer.add(circle2);
+    var circle3 = new Kinetic.Circle({
+        x: myGuage,
+        y: myGuage,
+        radius: 120,
+        fill: 'blue',
+        stroke: 'black',
+        strokeWidth: 3
+    });
+    layer.add(circle3);
+    var circle4 = new Kinetic.Circle({
+        x: myGuage,
+        y: myGuage,
+        radius: 80,
+        fill: 'green',
+        stroke: 'black',
+        strokeWidth: 3
+    });
+  layer.add(circle4);     
+  
+  var circle5 = new Kinetic.Circle({
+        x: myGuage,
+        y: myGuage,
+        radius: 50,
+        fill: 'orange',
+        stroke: 'black',
+        strokeWidth: 3
+    });
+  layer.add(circle5);
+    
+  var circle6 = new Kinetic.Circle({
+        x: myGuage,
+        y: myGuage,
+        radius: 10,
+        fill: 'black',
+        stroke: 'black',
+        strokeWidth: 3
+    });
+  layer.add(circle6);  
+  
+  var dragCircle = new Kinetic.Circle({
+        x : myGuage+outerRadius,
+        y : myGuage,
+        radius: 10,
+        fill: 'skyblue',
+        stroke: 'lightgray',
+        strokeWidth: 3,
+        draggable:true,
+        dragBoundFunc: function(pos) {
+            console.log("pos.x 250 :"+pos.x);
+            return { x: (pos.x>250 ? pos.x : this.getAbsolutePosition().x), y: this.getAbsolutePosition().y }
+        }
+    });
+  layer.add(dragCircle);
+  
+  dragCircle.on("dragmove",function(){
+        // Get the position of small spot located at circumference of outermost circle   
+        var x1 = this.getX(); 
+        var y1 = this.getY();
+      
+        // Resize circle-1 
+        var x2 = circle1.getX();
+        var y2 = circle1.getY();
+        var dx = x1-x2;
+        var dy = y1-y2;
+        var r  = Math.sqrt(dx*dx+dy*dy);
+            r  = Math.max(5,r);
+        circle1.resize(r);      
+        
+        // Resize circle-2 
+        var x3 = circle2.getX();
+        var y3 = circle2.getY();
+        var r1 = x1-x3-40;
+        r1  = Math.max(5,r1);
+        circle2.resize(r1);
+        
+        //  Resize circle-3 
+        var x4 = circle3.getX();
+        var y4 = circle3.getY();
+        var r2 = x1-x4-80;
+        r2  = Math.max(5,r2);
+        circle3.resize(r2);
+        
+        // Resize Circle-4   
+        var x5 = circle4.getX();
+        var y5 = circle4.getY();
+        var r3 = x1-x5-120;
+        r3  = Math.max(5,r3);
+        circle4.resize(r3);        
+    });
+      
+    circle1.resize = function(scaleFactor){        
+        this.setRadius(scaleFactor);
+    };  
+    circle2.resize = function(scaleFactor){        
+        this.setRadius(scaleFactor);
+    };  
+    circle3.resize = function(scaleFactor){        
+        this.setRadius(scaleFactor);
+    };  
+    circle4.resize = function(scaleFactor){        
+        this.setRadius(scaleFactor);
+    };  
+    
+  layer.draw();
+  
+</script>
